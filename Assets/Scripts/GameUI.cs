@@ -9,6 +9,7 @@ public class GameUI : MonoBehaviour
     [SerializeField] private RectTransform imageTransform;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text potentialScoreText;
+    [SerializeField] private ColorChanger[] changers;
 
     [Header("Animation Values")]
     [SerializeField] private AnimationCurve imageTransitionCurve;
@@ -20,6 +21,7 @@ public class GameUI : MonoBehaviour
     private Coroutine _potentialScoreCoroutine;
     private Coroutine _imageCoroutine;
     private Coroutine _scoreCoroutine;
+    private Coroutine _colorCoroutine;
     private Image _image;
 
     private void Start()
@@ -106,6 +108,26 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    private IEnumerator AnimateColor(Color endingPrimaryColor, Color endingSecondaryColor)
+    {
+        float timer = 0;
+
+        Color startingPrimaryColor = changers[0].GetPrimaryColor();
+        Color startingSecondaryColor = changers[0].GetSecondaryColor();
+
+        while (timer < imageTransitionTime)
+        {
+            timer += Time.deltaTime;
+
+            float normalizedTime = timer / imageTransitionTime;
+
+            UpdateColor(Color.Lerp(startingPrimaryColor, endingPrimaryColor, normalizedTime), Color.Lerp(startingSecondaryColor, endingSecondaryColor, normalizedTime), false);
+            yield return null;
+        }
+
+        UpdateColor(endingPrimaryColor, endingSecondaryColor, false);
+        _colorCoroutine = null;
+    }
     private void UpdatePotentialScore(float newScore, bool withTransition = true)
     {
         if (withTransition)
@@ -145,6 +167,26 @@ public class GameUI : MonoBehaviour
         }
 
         UpdatePotentialScore(imageTransformValues.Score, withTransition);
+    }
+
+    public void UpdateColor(Color primary, Color secondary, bool withTransition = true)
+    {
+        if (withTransition)
+        {
+            if (_colorCoroutine != null)
+            {
+                StopCoroutine(_colorCoroutine);
+            }
+            _colorCoroutine = StartCoroutine(AnimateColor(primary, secondary));
+        }
+        else
+        {
+            for (int i = 0; i < changers.Length; i++)
+            {
+                changers[i].ChangeColor(primary, secondary);
+            }
+        }
+            
     }
 
     public void UpdateScore(float newScore)

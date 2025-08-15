@@ -1,10 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using System.Collections.Generic;
 using System.Linq;
 
-[CustomEditor(typeof(ImagePromptSO))]
-public class ImagePromptSOEditor : Editor
+[CustomEditor(typeof(LevelSO))]
+public class LevelSOEditor : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -16,7 +16,7 @@ public class ImagePromptSOEditor : Editor
         EditorGUI.BeginDisabledGroup(selectedRect == null);
         if (GUILayout.Button("Capture Current Transform"))
         {
-            ImagePromptSO prompt = (ImagePromptSO)target;
+            LevelSO prompt = (LevelSO)target;
 
             TransformValues newValues = new(
                 selectedRect.anchoredPosition,

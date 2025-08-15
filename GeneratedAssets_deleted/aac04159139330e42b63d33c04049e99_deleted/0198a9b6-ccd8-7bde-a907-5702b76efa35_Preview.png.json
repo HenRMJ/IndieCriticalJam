@@ -1,0 +1,11 @@
+{
+    "asset": "aac04159139330e42b63d33c04049e99",
+    "fileName": "0198a9b6-ccd8-7bde-a907-5702b76efa35_Preview.png",
+    "prompt": "A shader material for a repeating background with circles that rise and get smaller as they rise, designed for smooth animation and seamless tiling.",
+    "negativePrompt": "",
+    "model": "575ecf67-4425-4939-97b9-5e138b8ee234",
+    "modelName": "Unity Texture2D",
+    "customSeed": 1223120491,
+    "w3CTraceId": "59bf5cca0888b89979bfb5cf851491c8",
+    "refinementMode": "Generation"
+}

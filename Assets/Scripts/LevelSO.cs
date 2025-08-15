@@ -1,11 +1,15 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "ImagePrompt", menuName = "ScriptableObjects/ImagePromptSO", order = 1)]
-public class ImagePromptSO : ScriptableObject
+[CreateAssetMenu(fileName = "New Level", menuName = "Level")]
+public class LevelSO : ScriptableObject
 {
     [Header("Image Prompt")]
     public Sprite PromptImage;
+
+    [Header("Visuals")]
+    public Color PrimaryColor;
+    public Color SecondaryColor;
 
     [Header("Transform Values")]
     public TransformValues[] SubLevel;

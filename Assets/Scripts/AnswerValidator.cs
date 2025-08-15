@@ -8,6 +8,7 @@ public class AnswerValidator : MonoBehaviour
     public event EventHandler<string> OnCorrectAnswer;
     public event EventHandler<string> OnCloseAnswer;
     public event EventHandler<string> OnIncorrectAnswer;
+    public event EventHandler OnType;
 
     [SerializeField] private TMP_InputField answerField;
 
@@ -17,11 +18,16 @@ public class AnswerValidator : MonoBehaviour
     private void Start()
     {
         answerField.onSubmit.AddListener(ProcessAnswer);
+        answerField.onValueChanged.AddListener(_ =>
+        {
+            OnType?.Invoke(this, EventArgs.Empty);
+        });
     }
 
     private void OnDestroy()
     {
         answerField.onSubmit.RemoveListener(ProcessAnswer);
+        answerField.onValueChanged.RemoveAllListeners();
     }
 
     private void ProcessAnswer(string answer)
@@ -110,7 +116,7 @@ public class AnswerValidator : MonoBehaviour
         ProcessAnswer(answerField.text);
     }
 
-    public void SetCurrentPrompt(ImagePromptSO prompt)
+    public void SetCurrentPrompt(LevelSO prompt)
     {
         _correctAnswers = prompt.CorrectAnswers;
         _closeAnswers = prompt.CloseAnswers;
